@@ -7,7 +7,8 @@
 
 #define PROMPT "mysh$ "
 
-void flex_scan_str(const char *str);
+int flex_scan_str(const char *str);
+int flex_scan_file(const char *path);
 
 void sigint_handler(int sig) {
 	(void)sig;
@@ -26,9 +27,13 @@ int main(int argc, char **argv) {
 	char *line;
 	while (true) {
 		line = readline(PROMPT);
-		if (line && *line)
+		if (line && *line) {
 			add_history(line);
-		flex_scan_str(line);
-		free(line);
+			flex_scan_str(line);
+			free(line);
+		} else {
+			fprintf(stderr, "exit\n");
+			exit(0);
+		}
 	}
 }
